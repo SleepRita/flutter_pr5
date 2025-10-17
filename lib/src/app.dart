@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'features/animal_shelter/state/animals_container.dart';
 import 'shared/constants/app_constants.dart';
+import 'features/main_screen.dart';
 
 class AnimalShelterApp extends StatelessWidget {
   const AnimalShelterApp({super.key});
@@ -19,7 +19,7 @@ class AnimalShelterApp extends StatelessWidget {
           centerTitle: true, // Центрирование заголовка
         ),
       ),
-      home: const AnimalsContainer(),
+      home: const MainScreen(),
     );
   }
 }

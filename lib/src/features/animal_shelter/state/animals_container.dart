@@ -84,7 +84,7 @@ class _AnimalsContainerState extends State<AnimalsContainer> {
     if (index == -1) return;
 
     final removedAnimal = _animals.removeAt(index);
-    setState(() {}); // Обновление UI
+    setState(() {});
 
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
@@ -106,7 +106,7 @@ class _AnimalsContainerState extends State<AnimalsContainer> {
     setState(() {
       final index = _animals.indexWhere((animal) => animal.id == id);
       if (index != -1) {
-        // Используем copyWith для безопасного изменения объекта
+        // copyWith для безопасного изменения объекта
         _animals[index] = _animals[index].copyWith(status: newStatus);
       }
     });
@@ -114,6 +114,35 @@ class _AnimalsContainerState extends State<AnimalsContainer> {
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: _buildAppBar(),
+      body: _buildBody(),
+    );
+  }
+
+  AppBar _buildAppBar() {
+    switch (_currentScreen) {
+      case Screen.list:
+        return AppBar(
+          title: const Text(AppConstants.petListTitle),
+        );
+      case Screen.detail:
+        return AppBar(
+          leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: _showList),
+          title: Text(_selectedAnimal?.name ?? AppConstants.detailsLabel),
+          actions: [
+            IconButton(icon: const Icon(Icons.edit), onPressed: () => _showForm(animal: _selectedAnimal!)),
+          ],
+        );
+      case Screen.form:
+        return AppBar(
+          leading: IconButton(icon: const Icon(Icons.close), onPressed: _showList),
+          title: Text(_selectedAnimal == null ? AppConstants.newPetLabel : AppConstants.editButtonText),
+        );
+    }
+  }
+
+  Widget _buildBody() {
     switch (_currentScreen) {
       case Screen.list:
         return AnimalListScreen(
@@ -123,29 +152,24 @@ class _AnimalsContainerState extends State<AnimalsContainer> {
           onEdit: (animal) => _showForm(animal: animal),
           onDelete: _deleteAnimal,
         );
-      case Screen.form:
-        return AnimalFormScreen(
-          animal: _selectedAnimal,
-          onSave: (animal) {
-            if (_selectedAnimal == null || animal.id.isEmpty) {
-              _addAnimal(animal);
-            } else {
-              _updateAnimal(animal);
-            }
-          },
-          onCancel: _showList,
-        );
       case Screen.detail:
         return AnimalDetailScreen(
-          animal: _selectedAnimal!,
-          onBackToList: _showList,
-          onEdit: () => _showForm(animal: _selectedAnimal!),
-          onDelete: () {
-            _deleteAnimal(_selectedAnimal!.id);
-            _showList(); // После удаления возвращаемся к списку
-          },
-          onUpdateStatus: _updateAnimalStatus,
-        );
+            animal: _selectedAnimal!,
+            onUpdateStatus: _updateAnimalStatus,
+            onDelete: () {
+              _deleteAnimal(_selectedAnimal!.id);
+              _showList();
+            });
+      case Screen.form:
+        return AnimalFormScreen(
+            animal: _selectedAnimal,
+            onSave: (animal) {
+              if (_selectedAnimal == null || animal.id.isEmpty) {
+                _addAnimal(animal);
+              } else {
+                _updateAnimal(animal);
+              }
+            });
     }
   }
 }

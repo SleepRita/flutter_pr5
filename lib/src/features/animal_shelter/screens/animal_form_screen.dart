@@ -1,17 +1,17 @@
+// lib/features/animal_shelter/screens/animal_form_screen.dart
+
 import 'package:flutter/material.dart';
-import '../models/animal.dart';
 import '../../../shared/constants/app_constants.dart';
+import '../models/animal.dart';
 
 class AnimalFormScreen extends StatefulWidget {
   final Animal? animal;
   final Function(Animal) onSave;
-  final VoidCallback onCancel;
 
   const AnimalFormScreen({
     super.key,
     this.animal,
     required this.onSave,
-    required this.onCancel,
   });
 
   @override
@@ -24,92 +24,101 @@ class _AnimalFormScreenState extends State<AnimalFormScreen> {
   late TextEditingController _breedController;
   late TextEditingController _ageController;
   late TextEditingController _descriptionController;
-  AnimalType _selectedType = AnimalType.cat;
+  late AnimalType _selectedType;
 
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController(text: widget.animal?.name);
-    _breedController = TextEditingController(text: widget.animal?.breed);
-    _ageController = TextEditingController(text: widget.animal?.age.toString());
-    _descriptionController = TextEditingController(text: widget.animal?.description);
+    _nameController = TextEditingController(text: widget.animal?.name ?? '');
+    _breedController = TextEditingController(text: widget.animal?.breed ?? '');
+    _ageController = TextEditingController(text: widget.animal?.age.toString() ?? '');
+    _descriptionController = TextEditingController(text: widget.animal?.description ?? '');
     _selectedType = widget.animal?.type ?? AnimalType.cat;
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _breedController.dispose();
+    _ageController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
   }
 
   void _submit() {
     if (_formKey.currentState!.validate()) {
-      final animalData = Animal(
+      final newOrUpdatedAnimal = Animal(
           id: widget.animal?.id ?? '',
-          name: _nameController.text,
+          name: _nameController.text.trim(),
           type: _selectedType,
-          breed: _breedController.text,
-          age: int.tryParse(_ageController.text) ?? 0,
-          description: _descriptionController.text,
+          breed: _breedController.text.trim(),
+          age: int.tryParse(_ageController.text.trim()) ?? 0,
+          description: _descriptionController.text.trim(),
           status: widget.animal?.status ?? AnimalStatus.lookingForHome,
           dateAdded: widget.animal?.dateAdded
       );
-      widget.onSave(animalData);
+      widget.onSave(newOrUpdatedAnimal);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.animal == null ? AppConstants.newPetLabel : AppConstants.editButtonText),
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: widget.onCancel,
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              TextFormField(
-                controller: _nameController,
-                decoration: const InputDecoration(labelText: AppConstants.nameLabel),
-                validator: (value) => value!.isEmpty ? AppConstants.enterNameLabel : null,
-              ),
-              TextFormField(
-                controller: _breedController,
-                decoration: const InputDecoration(labelText: AppConstants.breedLabel),
-                validator: (value) => value!.isEmpty ? AppConstants.enterBreedLabel : null,
-              ),
-              TextFormField(
-                controller: _ageController,
-                decoration: const InputDecoration(labelText: AppConstants.descriptionAgeLabel),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value!.isEmpty) return AppConstants.enterAgeLabel;
-                  if (int.tryParse(value) == null) return AppConstants.enterIntLabel;
-                  return null;
-                },
-              ),
-              DropdownButtonFormField<AnimalType>(
-                value: _selectedType,
-                items: AnimalType.values.map((type) => DropdownMenuItem(
-                  value: type,
-                  child: Text(type.toString().split('.').last),
-                )).toList(),
-                onChanged: (value) => setState(() => _selectedType = value!),
-                decoration: const InputDecoration(labelText: AppConstants.typeLabel),
-              ),
-              TextFormField(
-                controller: _descriptionController,
-                decoration: const InputDecoration(labelText: AppConstants.descriptionLabel),
-                maxLines: 4,
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _submit,
-                child: const Text(AppConstants.saveButtonText),
-              ),
-            ],
+    return Form(
+      key: _formKey,
+      child: ListView(
+        padding: const EdgeInsets.all(AppConstants.defaultPadding),
+        children: [
+          TextFormField(
+            controller: _nameController,
+            decoration: const InputDecoration(labelText: AppConstants.nameLabel, border: OutlineInputBorder()),
+            validator: (value) => (value == null || value.isEmpty) ? AppConstants.enterNameLabel : null,
           ),
-        ),
+          const SizedBox(height: 16),
+          TextFormField(
+            controller: _breedController,
+            decoration: const InputDecoration(labelText: AppConstants.breedLabel, border: OutlineInputBorder()),
+            validator: (value) => (value == null || value.isEmpty) ? AppConstants.enterBreedLabel : null,
+          ),
+          const SizedBox(height: 16),
+          TextFormField(
+            controller: _ageController,
+            decoration: const InputDecoration(labelText: AppConstants.ageLabel, border: OutlineInputBorder()),
+            keyboardType: TextInputType.number,
+            validator: (value) {
+              if (value == null || value.isEmpty) return AppConstants.enterAgeLabel;
+              if (int.tryParse(value) == null) return AppConstants.enterIntLabel;
+              return null;
+            },
+          ),
+          const SizedBox(height: 16),
+          DropdownButtonFormField<AnimalType>(
+            value: _selectedType,
+            decoration: const InputDecoration(labelText: AppConstants.typeLabel, border: OutlineInputBorder()),
+            items: AnimalType.values.map((type) => DropdownMenuItem(
+              value: type,
+              child: Text(AppConstants.animalTypes[type.index]),
+            )).toList(),
+            onChanged: (value) {
+              if (value != null) {
+                setState(() => _selectedType = value);
+              }
+            },
+          ),
+          const SizedBox(height: 16),
+          TextFormField(
+            controller: _descriptionController,
+            decoration: const InputDecoration(labelText: AppConstants.descriptionLabel, border: OutlineInputBorder()),
+            maxLines: 4,
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton(
+            onPressed: _submit,
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+            ),
+            child: const Text(AppConstants.saveButtonText),
+          ),
+        ],
       ),
     );
   }

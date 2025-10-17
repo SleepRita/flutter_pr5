@@ -6,7 +6,9 @@ class AppConstants {
   static const String editButtonText = 'Редактировать';
   static const String saveButtonText = 'Сохранить';
   static const String deleteButtonText = 'Удалить из базы';
-  static const String cancelButtonText = 'Отменить';
+  static const String cancelButtonText = 'Отмена';
+  static const String clearFiltersButtonText = 'Очистить фильтры';
+  static const String addButtonText = 'Добавить';
   static const String petListTitle = 'Подопечные приюта';
   static const String nameLabel = 'Кличка';
   static const String typeLabel = 'Вид';
@@ -24,10 +26,24 @@ class AppConstants {
   static const String descriptionAgeLabel = 'Введите возраст';
   static const String petLabel = 'Подопечный ';
   static const String deletedLabel = ' удален';
+  static const String searchByNameLabel = 'Поиск по кличке...';
+  static const String allTypesLabel = 'Все виды';
+  static const String allStatusesLabel = 'Все статусы';
+  static const String ageStartLabel = 'Возраст: от ';
+  static const String ageToLabel = ' до ';
+  static const String petAgesLabel = ' лет';
+  static const String notFoundLabel = 'По вашему запросу ничего не найдено.\nПопробуйте изменить или сбросить фильтры.';
+  static const String detailsLabel = 'Детали';
+  static const String titleLabel = 'Название';
+  static const String addressLabel = 'Адрес';
+  static const String workingTimeLabel = 'Часы посещений';
+  static const String aboutUsLabel = 'О нас';
+  static const String aboutShelterLabel = 'О приюте';
+  static const String editingLabel = 'Редактирование';
+  static const String petsLabel = 'Подопечные';
 
   // Colors
   static const MaterialColor primaryColor = Colors.cyan;
-  static const Color accentColor = Colors.amber;
 
   // Lists for Dropdowns
   static const List<String> animalTypes = ['Кошка', 'Собака', 'Другое'];
