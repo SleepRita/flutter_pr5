@@ -5,6 +5,7 @@ import '../widgets/animal_tile.dart';
 class AnimalListScreen extends StatelessWidget {
   final List<Animal> animals;
   final VoidCallback onAdd;
+  final Function(Animal) onTap;
   final Function(Animal) onEdit;
   final Function(String) onDelete;
 
@@ -12,6 +13,7 @@ class AnimalListScreen extends StatelessWidget {
     super.key,
     required this.animals,
     required this.onAdd,
+    required this.onTap,
     required this.onEdit,
     required this.onDelete,
   });
@@ -30,6 +32,7 @@ class AnimalListScreen extends StatelessWidget {
           final animal = animals[index];
           return AnimalTile(
             animal: animal,
+            onTap: () => onTap(animal),
             onEdit: () => onEdit(animal),
             onDelete: () => onDelete(animal.id),
           );

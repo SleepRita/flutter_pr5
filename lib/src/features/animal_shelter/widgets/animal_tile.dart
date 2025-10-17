@@ -3,12 +3,14 @@ import '../models/animal.dart';
 
 class AnimalTile extends StatelessWidget {
   final Animal animal;
+  final VoidCallback onTap;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
 
   const AnimalTile({
     super.key,
     required this.animal,
+    required this.onTap,
     required this.onEdit,
     required this.onDelete,
   });
@@ -47,6 +49,7 @@ class AnimalTile extends StatelessWidget {
         subtitle: Text(
           '${animal.breed}, ${animal.age} ${animal.age == 1 ? "год" : "года/лет"}',
         ),
+        onTap: onTap,
         // Кнопки действий справа
         trailing: Row(
           mainAxisSize: MainAxisSize.min, // Чтобы Row занимал минимум места
