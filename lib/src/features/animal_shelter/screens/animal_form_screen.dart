@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/animal.dart';
+import '../../../shared/constants/app_constants.dart';
 
 class AnimalFormScreen extends StatefulWidget {
   final Animal? animal;
@@ -55,7 +56,7 @@ class _AnimalFormScreenState extends State<AnimalFormScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.animal == null ? 'Новый подопечный' : 'Редактировать'),
+        title: Text(widget.animal == null ? AppConstants.newPetLabel : AppConstants.editButtonText),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: widget.onCancel,
@@ -69,21 +70,21 @@ class _AnimalFormScreenState extends State<AnimalFormScreen> {
             children: [
               TextFormField(
                 controller: _nameController,
-                decoration: const InputDecoration(labelText: 'Кличка'),
-                validator: (value) => value!.isEmpty ? 'Введите кличку' : null,
+                decoration: const InputDecoration(labelText: AppConstants.nameLabel),
+                validator: (value) => value!.isEmpty ? AppConstants.enterNameLabel : null,
               ),
               TextFormField(
                 controller: _breedController,
-                decoration: const InputDecoration(labelText: 'Порода'),
-                validator: (value) => value!.isEmpty ? 'Введите породу' : null,
+                decoration: const InputDecoration(labelText: AppConstants.breedLabel),
+                validator: (value) => value!.isEmpty ? AppConstants.enterBreedLabel : null,
               ),
               TextFormField(
                 controller: _ageController,
-                decoration: const InputDecoration(labelText: 'Возраст (полных лет)'),
+                decoration: const InputDecoration(labelText: AppConstants.descriptionAgeLabel),
                 keyboardType: TextInputType.number,
                 validator: (value) {
-                  if (value!.isEmpty) return 'Введите возраст';
-                  if (int.tryParse(value) == null) return 'Введите корректное число';
+                  if (value!.isEmpty) return AppConstants.enterAgeLabel;
+                  if (int.tryParse(value) == null) return AppConstants.enterIntLabel;
                   return null;
                 },
               ),
@@ -94,17 +95,17 @@ class _AnimalFormScreenState extends State<AnimalFormScreen> {
                   child: Text(type.toString().split('.').last),
                 )).toList(),
                 onChanged: (value) => setState(() => _selectedType = value!),
-                decoration: const InputDecoration(labelText: 'Вид'),
+                decoration: const InputDecoration(labelText: AppConstants.typeLabel),
               ),
               TextFormField(
                 controller: _descriptionController,
-                decoration: const InputDecoration(labelText: 'Описание'),
+                decoration: const InputDecoration(labelText: AppConstants.descriptionLabel),
                 maxLines: 4,
               ),
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _submit,
-                child: const Text('Сохранить'),
+                child: const Text(AppConstants.saveButtonText),
               ),
             ],
           ),

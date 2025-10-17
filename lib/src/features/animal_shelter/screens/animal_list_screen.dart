@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/animal.dart';
 import '../widgets/animal_tile.dart';
+import '../../../shared/constants/app_constants.dart';
 
 class AnimalListScreen extends StatelessWidget {
   final List<Animal> animals;
@@ -22,7 +23,7 @@ class AnimalListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Подопечные приюта'),
+        title: const Text(AppConstants.petListTitle),
       ),
       body: animals.isEmpty
           ? const Center(child: Text('В приюте пока нет животных.'))

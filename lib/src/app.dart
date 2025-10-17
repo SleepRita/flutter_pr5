@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'features/animal_shelter/state/animals_container.dart';
+import 'shared/constants/app_constants.dart';
 
 class AnimalShelterApp extends StatelessWidget {
   const AnimalShelterApp({super.key});
@@ -7,10 +8,16 @@ class AnimalShelterApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Приют "Пушистый дом"',
+      title: AppConstants.appTitle,
       theme: ThemeData(
-        primarySwatch: Colors.brown,
+        colorScheme: ColorScheme.fromSeed(seedColor: AppConstants.primaryColor),
         useMaterial3: true,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: AppConstants.primaryColor,
+          foregroundColor: Colors.white,
+          elevation: 2, // Небольшая тень
+          centerTitle: true, // Центрирование заголовка
+        ),
       ),
       home: const AnimalsContainer(),
     );

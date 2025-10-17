@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pr5/src/shared/constants/app_constants.dart';
 import '../models/animal.dart';
 
 class AnimalTile extends StatelessWidget {
@@ -47,7 +48,7 @@ class AnimalTile extends StatelessWidget {
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         subtitle: Text(
-          '${animal.breed}, ${animal.age} ${animal.age == 1 ? "год" : "года/лет"}',
+          '${animal.breed}, ${animal.age} ${animal.age == 1 ? AppConstants.oneAgeMeasureLabel : AppConstants.ageMeasureLabel}',
         ),
         onTap: onTap,
         // Кнопки действий справа
@@ -57,12 +58,12 @@ class AnimalTile extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.edit, color: Colors.blue),
               onPressed: onEdit,
-              tooltip: 'Редактировать',
+              tooltip: AppConstants.editButtonText,
             ),
             IconButton(
               icon: const Icon(Icons.delete_outline, color: Colors.red),
               onPressed: onDelete,
-              tooltip: 'Удалить',
+              tooltip: AppConstants.deleteButtonText,
             ),
           ],
         ),

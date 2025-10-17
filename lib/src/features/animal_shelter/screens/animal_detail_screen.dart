@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pr5/src/shared/constants/app_constants.dart';
 import '../models/animal.dart';
 
 class AnimalDetailScreen extends StatelessWidget {
@@ -6,6 +7,7 @@ class AnimalDetailScreen extends StatelessWidget {
   final VoidCallback onBackToList;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
+  final Function(String id, AnimalStatus newStatus) onUpdateStatus;
 
   const AnimalDetailScreen({
     super.key,
@@ -13,13 +15,13 @@ class AnimalDetailScreen extends StatelessWidget {
     required this.onBackToList,
     required this.onEdit,
     required this.onDelete,
+    required this.onUpdateStatus,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // Кнопка "назад" будет вызывать наш колбэк для правильного управления состоянием
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: onBackToList,
@@ -30,14 +32,14 @@ class AnimalDetailScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.edit),
             onPressed: onEdit,
-            tooltip: 'Редактировать',
+            tooltip: AppConstants.editButtonText,
           ),
         ],
       ),
-      body: ListView( // ListView позволяет прокручивать, если контент не помещается
+      body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          // --- ЗАГЛУШКА ДЛЯ ФОТОГРАФИИ ---
+          // Заглушка для фотографии
           Container(
             height: 250,
             decoration: BoxDecoration(
@@ -53,25 +55,58 @@ class AnimalDetailScreen extends StatelessWidget {
           ),
           const SizedBox(height: 24),
 
-          // --- ДЕТАЛЬНАЯ ИНФОРМАЦИЯ ---
-          _buildDetailRow(context, icon: Icons.badge_outlined, title: 'Кличка', value: animal.name),
-          _buildDetailRow(context, icon: Icons.category_outlined, title: 'Вид', value: _animalTypeToString(animal.type)),
-          _buildDetailRow(context, icon: Icons.label_outline, title: 'Порода', value: animal.breed),
-          _buildDetailRow(context, icon: Icons.cake_outlined, title: 'Возраст', value: '${animal.age} года/лет'),
-          _buildDetailRow(context, icon: Icons.description_outlined, title: 'Описание', value: animal.description),
-          _buildDetailRow(context, icon: Icons.monitor_heart_outlined, title: 'Статус', value: _animalStatusToString(animal.status)),
+          // Детальная информация
+          _buildDetailRow(context, icon: Icons.badge_outlined, title: AppConstants.nameLabel, value: animal.name),
+          _buildDetailRow(context, icon: Icons.category_outlined, title: AppConstants.typeLabel, value: _animalTypeToString(animal.type)),
+          _buildDetailRow(context, icon: Icons.label_outline, title: AppConstants.breedLabel, value: animal.breed),
+          _buildDetailRow(context, icon: Icons.cake_outlined, title: AppConstants.ageLabel, value: '${animal.age} '+AppConstants.ageMeasureLabel),
+          _buildDetailRow(context, icon: Icons.description_outlined, title: AppConstants.descriptionLabel, value: animal.description),
+          _buildStatusDropdown(context),
 
           const SizedBox(height: 32),
 
-          // --- КНОПКА УДАЛЕНИЯ ---
+          // Кнопка удаления
           ElevatedButton.icon(
             onPressed: onDelete,
             icon: const Icon(Icons.delete_forever),
-            label: const Text('Удалить из базы'),
+            label: const Text(AppConstants.deleteButtonText),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red[700],
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 12),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Виджет для выпадающего списка статусов
+  Widget _buildStatusDropdown(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        children: [
+          Icon(Icons.monitor_heart_outlined, color: Theme.of(context).primaryColor),
+          const SizedBox(width: 16),
+          Expanded(
+            child: DropdownButtonFormField<AnimalStatus>(
+              value: animal.status,
+              decoration: const InputDecoration(
+                labelText: AppConstants.statusLabel,
+                border: OutlineInputBorder(),
+              ),
+              items: AnimalStatus.values.map((status) {
+                return DropdownMenuItem(
+                  value: status,
+                  child: Text(_animalStatusToString(status)),
+                );
+              }).toList(),
+              onChanged: (newStatus) {
+                if (newStatus != null) {
+                  onUpdateStatus(animal.id, newStatus);
+                }
+              },
             ),
           ),
         ],
@@ -106,17 +141,17 @@ class AnimalDetailScreen extends StatelessWidget {
   // Функции для преобразования enum в читаемый текст
   String _animalTypeToString(AnimalType type) {
     switch (type) {
-      case AnimalType.cat: return 'Кошка';
-      case AnimalType.dog: return 'Собака';
-      case AnimalType.other: return 'Другое';
+      case AnimalType.cat: return AppConstants.animalTypes[0];
+      case AnimalType.dog: return AppConstants.animalTypes[1];
+      case AnimalType.other: return AppConstants.animalTypes[2];
     }
   }
 
   String _animalStatusToString(AnimalStatus status) {
     switch (status) {
-      case AnimalStatus.lookingForHome: return 'Ищет дом';
-      case AnimalStatus.adopted: return 'Нашел дом';
-      case AnimalStatus.treatment: return 'На лечении';
+      case AnimalStatus.lookingForHome: return AppConstants.animalStatuses[0];
+      case AnimalStatus.adopted: return AppConstants.animalStatuses[1];
+      case AnimalStatus.treatment: return AppConstants.animalStatuses[2];
     }
   }
 }
