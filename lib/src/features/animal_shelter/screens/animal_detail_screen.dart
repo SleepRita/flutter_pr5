@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../shared/constants/app_constants.dart';
-import '../models/animal.dart';
+import 'package:flutter_pr5/src/shared/constants/app_constants.dart';
+import 'package:flutter_pr5/src/features/animal_shelter/models/animal.dart';
 
 class AnimalDetailScreen extends StatelessWidget {
   final Animal animal;

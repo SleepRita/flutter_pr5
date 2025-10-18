@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pr5/src/shared/constants/app_constants.dart';
-import '../models/animal.dart';
-import '../screens/animal_list_screen.dart';
-import '../screens/animal_form_screen.dart';
-import '../screens/animal_detail_screen.dart';
+import 'package:flutter_pr5/src/features/animal_shelter/models/animal.dart';
+import 'package:flutter_pr5/src/features/animal_shelter/screens/animal_list_screen.dart';
+import 'package:flutter_pr5/src/features/animal_shelter/screens/animal_form_screen.dart';
+import 'package:flutter_pr5/src/features/animal_shelter/screens/animal_detail_screen.dart';
 
 // Перечисление для управления навигацией
 enum Screen { list, form, detail }

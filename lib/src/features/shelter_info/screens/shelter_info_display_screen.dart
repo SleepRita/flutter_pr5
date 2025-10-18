@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pr5/src/shared/constants/app_constants.dart';
-import '../models/shelter_info.dart';
+import 'package:flutter_pr5/src/features/shelter_info/models/shelter_info.dart';
 
 class ShelterInfoDisplayScreen extends StatelessWidget {
   final ShelterInfo info;

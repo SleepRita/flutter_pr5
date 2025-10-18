@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pr5/src/shared/constants/app_constants.dart';
-import '../models/shelter_info.dart';
-import '../screens/shelter_info_display_screen.dart';
-import '../screens/shelter_info_form_screen.dart';
+import 'package:flutter_pr5/src/features/shelter_info/models/shelter_info.dart';
+import 'package:flutter_pr5/src/features/shelter_info/screens/shelter_info_display_screen.dart';
+import 'package:flutter_pr5/src/features/shelter_info/screens/shelter_info_form_screen.dart';
 
 class ShelterInfoContainer extends StatefulWidget {
   const ShelterInfoContainer({super.key});

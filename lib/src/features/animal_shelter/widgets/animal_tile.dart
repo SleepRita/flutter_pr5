@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pr5/src/shared/constants/app_constants.dart';
-import '../models/animal.dart';
+import 'package:flutter_pr5/src/features/animal_shelter/models/animal.dart';
 
 class AnimalTile extends StatelessWidget {
   final Animal animal;

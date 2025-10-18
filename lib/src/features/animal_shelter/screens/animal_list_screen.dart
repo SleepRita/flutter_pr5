@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../shared/constants/app_constants.dart';
-import '../models/animal.dart';
-import '../widgets/animal_tile.dart';
+import 'package:flutter_pr5/src/shared/constants/app_constants.dart';
+import 'package:flutter_pr5/src/features/animal_shelter/models/animal.dart';
+import 'package:flutter_pr5/src/features/animal_shelter/widgets/animal_tile.dart';
 
 class AnimalListScreen extends StatefulWidget {
   final List<Animal> animals;

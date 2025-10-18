@@ -1,8 +1,6 @@
-// lib/features/animal_shelter/screens/animal_form_screen.dart
-
 import 'package:flutter/material.dart';
-import '../../../shared/constants/app_constants.dart';
-import '../models/animal.dart';
+import 'package:flutter_pr5/src/shared/constants/app_constants.dart';
+import 'package:flutter_pr5/src/features/animal_shelter/models/animal.dart';
 
 class AnimalFormScreen extends StatefulWidget {
   final Animal? animal;
