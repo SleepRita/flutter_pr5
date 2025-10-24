@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pr5/src/shared/constants/app_constants.dart';
 import 'package:flutter_pr5/src/features/animal_shelter/models/animal.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class AnimalDetailScreen extends StatelessWidget {
   final Animal animal;
@@ -19,18 +20,25 @@ class AnimalDetailScreen extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(AppConstants.defaultPadding),
       children: [
-        // Заглушка для фотографии
+        // Фотография подопечного
         Container(
           height: 250,
+          clipBehavior: Clip.antiAlias, // Для скругления углов у дочернего виджета
           decoration: BoxDecoration(
-            color: Colors.grey[300],
+            color: Colors.white,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.grey.shade400),
           ),
-          child: Icon(
-            Icons.pets,
-            size: 100,
-            color: Colors.grey[600],
+          child: CachedNetworkImage(
+            imageUrl: animal.imageUrl,
+            fit: BoxFit.contain,
+            placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+            errorWidget: (context, url, error) => const Center(
+              child: Icon(
+                Icons.broken_image_outlined,
+                color: Colors.grey,
+                size: 50,
+              ),
+            ),
           ),
         ),
         const SizedBox(height: 24),

@@ -22,6 +22,7 @@ class _AnimalFormScreenState extends State<AnimalFormScreen> {
   late TextEditingController _breedController;
   late TextEditingController _ageController;
   late TextEditingController _descriptionController;
+  late TextEditingController _imageUrlController;
   late AnimalType _selectedType;
 
   @override
@@ -31,6 +32,7 @@ class _AnimalFormScreenState extends State<AnimalFormScreen> {
     _breedController = TextEditingController(text: widget.animal?.breed ?? '');
     _ageController = TextEditingController(text: widget.animal?.age.toString() ?? '');
     _descriptionController = TextEditingController(text: widget.animal?.description ?? '');
+    _imageUrlController = TextEditingController(text: widget.animal?.imageUrl ?? '');
     _selectedType = widget.animal?.type ?? AnimalType.cat;
   }
 
@@ -40,6 +42,7 @@ class _AnimalFormScreenState extends State<AnimalFormScreen> {
     _breedController.dispose();
     _ageController.dispose();
     _descriptionController.dispose();
+    _imageUrlController.dispose();
     super.dispose();
   }
 
@@ -52,6 +55,7 @@ class _AnimalFormScreenState extends State<AnimalFormScreen> {
           breed: _breedController.text.trim(),
           age: int.tryParse(_ageController.text.trim()) ?? 0,
           description: _descriptionController.text.trim(),
+          imageUrl: _imageUrlController.text.trim(),
           status: widget.animal?.status ?? AnimalStatus.lookingForHome,
           dateAdded: widget.animal?.dateAdded
       );
@@ -66,6 +70,18 @@ class _AnimalFormScreenState extends State<AnimalFormScreen> {
       child: ListView(
         padding: const EdgeInsets.all(AppConstants.defaultPadding),
         children: [
+          TextFormField(
+            controller: _imageUrlController,
+            decoration: const InputDecoration(labelText: 'URL изображения', border: OutlineInputBorder()),
+            keyboardType: TextInputType.url,
+            validator: (value) {
+              if (value == null || value.isEmpty) return 'Введите URL изображения';
+              // Проверка на то, что это ссылка
+              if (!value.startsWith('http')) return 'Введите корректный URL';
+              return null;
+            },
+          ),
+          const SizedBox(height: 16),
           TextFormField(
             controller: _nameController,
             decoration: const InputDecoration(labelText: AppConstants.nameLabel, border: OutlineInputBorder()),

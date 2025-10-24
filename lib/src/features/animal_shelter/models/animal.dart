@@ -8,6 +8,7 @@ class Animal {
   final String breed;
   final int age;
   final String description;
+  final String imageUrl;
   final AnimalStatus status;
   final DateTime dateAdded;
 
@@ -18,6 +19,7 @@ class Animal {
     required this.breed,
     required this.age,
     required this.description,
+    required this.imageUrl,
     this.status = AnimalStatus.lookingForHome,
     DateTime? dateAdded,
   }) : this.dateAdded = dateAdded ?? DateTime.now();
@@ -29,6 +31,7 @@ class Animal {
     String? breed,
     int? age,
     String? description,
+    String? imageUrl,
     AnimalStatus? status,
   }) {
     return Animal(
@@ -38,6 +41,7 @@ class Animal {
       breed: breed ?? this.breed,
       age: age ?? this.age,
       description: description ?? this.description,
+      imageUrl: imageUrl ?? this.imageUrl,
       status: status ?? this.status,
       dateAdded: this.dateAdded,
     );

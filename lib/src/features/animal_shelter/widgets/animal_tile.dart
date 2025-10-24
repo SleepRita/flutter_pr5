@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pr5/src/shared/constants/app_constants.dart';
 import 'package:flutter_pr5/src/features/animal_shelter/models/animal.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class AnimalTile extends StatelessWidget {
   final Animal animal;
@@ -60,11 +61,9 @@ class AnimalTile extends StatelessWidget {
       child: ListTile(
         // Иконка слева
         leading: CircleAvatar(
-          backgroundColor: Theme.of(context).primaryColorLight,
-          child: Icon(
-            _getAnimalIcon(),
-            color: Theme.of(context).primaryColorDark,
-          ),
+          radius: 28,
+          backgroundColor: Colors.grey[300],
+          backgroundImage: CachedNetworkImageProvider(animal.imageUrl),
         ),
         // Основная информация
         title: Text(
