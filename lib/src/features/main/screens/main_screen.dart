@@ -1,48 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pr5/src/features/animal_shelter/screens/animal_list_screen.dart';
-import 'package:flutter_pr5/src/features/auth/screens/auth_screen.dart';
-import 'package:flutter_pr5/src/features/shelter_info/screens/shelter_info_display_screen.dart';
 import 'package:flutter_pr5/src/shared/constants/app_constants.dart';
+import 'package:go_router/go_router.dart';
+import 'package:flutter_pr5/src/shared/routing/app_router.dart';
 
-class MainScreen extends StatefulWidget {
-  final bool isAuth;
-  const MainScreen({super.key, required this.isAuth});
+class MainScreen extends StatelessWidget {
+  const MainScreen({super.key});
 
-  @override
-  State<MainScreen> createState() => _MainScreenState();
-}
-
-class _MainScreenState extends State<MainScreen> {
-
-  @override
-  void initState() {
-    super.initState();
-    // Проверка авторизации. Если пользователь не авторизован, его перенаправит на экран входа.
-    if (!widget.isAuth) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const AuthScreen()),
-        );
-      });
-    }
-  }
-
-  void _logout() {
-    // Выход из аккаунта с полной очисткой стека навигации.
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => const AuthScreen()),
-          (route) => false,
-    );
+  void _logout(BuildContext context) {
+    isAuth = false;
+    context.go('/auth');
   }
 
   @override
   Widget build(BuildContext context) {
-    // Пока происходит перенаправление (если isAuth == false), показывается индикатор
-    // загрузки, чтобы избежать моргания экрана.
-    if (!widget.isAuth) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: const Text(AppConstants.appTitle),
@@ -50,7 +20,7 @@ class _MainScreenState extends State<MainScreen> {
           IconButton(
             icon: const Icon(Icons.logout),
             tooltip: 'Выйти',
-            onPressed: _logout,
+            onPressed: () => _logout(context),
           ),
         ],
       ),
@@ -66,12 +36,7 @@ class _MainScreenState extends State<MainScreen> {
               title: 'Подопечные приюта',
               subtitle: 'Просмотр, добавление и редактирование',
               // Вертикальная навигация
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AnimalListScreen()),
-                );
-              },
+              onTap: () => context.push('/animals'),
             ),
             const SizedBox(height: 24),
             _buildNavigationCard(
@@ -80,12 +45,7 @@ class _MainScreenState extends State<MainScreen> {
               title: 'О приюте',
               subtitle: 'Узнайте больше о нашей работе',
               // Вертикальная навигация
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ShelterInfoDisplayScreen()),
-                );
-              },
+              onTap: () => context.push('/info'),
             ),
           ],
         ),

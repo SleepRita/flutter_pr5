@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pr5/src/features/shelter_info/screens/shelter_info_form_screen.dart';
 import 'package:flutter_pr5/src/shared/constants/app_constants.dart';
 import 'package:flutter_pr5/src/features/shelter_info/models/shelter_info.dart';
 import 'package:flutter_pr5/src/data/mock_repository.dart';
+import 'package:go_router/go_router.dart';
 
 class ShelterInfoDisplayScreen extends StatefulWidget {
   const ShelterInfoDisplayScreen({super.key});
@@ -46,9 +46,7 @@ class _ShelterInfoDisplayScreenState extends State<ShelterInfoDisplayScreen> {
       floatingActionButton: FloatingActionButton(
         tooltip: AppConstants.editButtonText,
         onPressed: () async {
-          await Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => const ShelterInfoFormScreen()),
-          );
+          await context.push('/info/edit');
           _refreshInfo();
         },
         child: const Icon(Icons.edit),

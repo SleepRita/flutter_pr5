@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pr5/src/features/main/screens/main_screen.dart';
+import 'package:flutter_pr5/src/shared/routing/app_router.dart';
+import 'package:go_router/go_router.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -13,9 +14,8 @@ class _AuthScreenState extends State<AuthScreen> {
   final _passwordController = TextEditingController();
 
   void _login() {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => const MainScreen(isAuth: true)),
-    );
+    isAuth = true;
+    context.go('/main');
   }
 
   @override
