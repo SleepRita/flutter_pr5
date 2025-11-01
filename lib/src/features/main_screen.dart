@@ -1,49 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pr5/src/shared/constants/app_constants.dart';
-import 'animal_shelter/state/animals_container.dart';
-import 'shelter_info/state/shelter_info_container.dart';
+import 'package:go_router/go_router.dart';
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+class MainScreen extends StatelessWidget {
+  final Widget child;
+  const MainScreen({super.key, required this.child});
 
-  @override
-  State<MainScreen> createState() => _MainScreenState();
-}
+  int _calculateSelectedIndex(BuildContext context) {
+    final String location = GoRouterState.of(context).uri.toString();
+    if (location.startsWith('/animals')) return 0;
+    if (location.startsWith('/info')) return 1;
+    return 0;
+  }
 
-class _MainScreenState extends State<MainScreen> {
-  int _selectedIndex = 0;
-
-  static const List<Widget> _widgetOptions = <Widget>[
-    AnimalsContainer(),
-    ShelterInfoContainer(),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  void _onItemTapped(int index, BuildContext context) {
+    switch (index) {
+      case 0:
+        context.go('/animals');
+        break;
+      case 1:
+        context.go('/info');
+        break;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: _widgetOptions,
-      ),
+      body: child,
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.pets),
-            label: AppConstants.petsLabel,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.info_outline),
-            label: AppConstants.aboutShelterLabel,
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.pets), label: 'Подопечные'),
+          BottomNavigationBarItem(icon: Icon(Icons.info_outline), label: 'О приюте'),
         ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+        currentIndex: _calculateSelectedIndex(context),
+        onTap: (index) => _onItemTapped(index, context),
         selectedItemColor: Theme.of(context).primaryColor,
       ),
     );

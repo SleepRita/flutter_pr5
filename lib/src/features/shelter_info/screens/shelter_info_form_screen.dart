@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pr5/src/shared/constants/app_constants.dart';
 import 'package:flutter_pr5/src/features/shelter_info/models/shelter_info.dart';
+import 'package:go_router/go_router.dart';
+import 'package:flutter_pr5/src/data/mock_repository.dart';
 
 class ShelterInfoFormScreen extends StatefulWidget {
-  final ShelterInfo initialInfo;
-  final Function(ShelterInfo) onSave;
-  final VoidCallback onCancel;
-
-  const ShelterInfoFormScreen({super.key, required this.initialInfo, required this.onSave, required this.onCancel});
+  const ShelterInfoFormScreen({super.key});
 
   @override
   State<ShelterInfoFormScreen> createState() => _ShelterInfoFormScreenState();
@@ -20,30 +18,47 @@ class _ShelterInfoFormScreenState extends State<ShelterInfoFormScreen> {
   late TextEditingController _hoursController;
   late TextEditingController _aboutController;
 
+  late ShelterInfo _initialInfo;
+
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController(text: widget.initialInfo.name);
-    _addressController = TextEditingController(text: widget.initialInfo.address);
-    _hoursController = TextEditingController(text: widget.initialInfo.workingHours);
-    _aboutController = TextEditingController(text: widget.initialInfo.about);
+    _initialInfo = MockRepository.instance.getShelterInfo();
+
+    _nameController = TextEditingController(text: _initialInfo.name);
+    _addressController = TextEditingController(text: _initialInfo.address);
+    _hoursController = TextEditingController(text: _initialInfo.workingHours);
+    _aboutController = TextEditingController(text: _initialInfo.about);
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _addressController.dispose();
+    _hoursController.dispose();
+    _aboutController.dispose();
+    super.dispose();
   }
 
   void _submit() {
     if (_formKey.currentState!.validate()) {
-      final newInfo = widget.initialInfo.copyWith(
-        name: _nameController.text,
-        address: _addressController.text,
-        workingHours: _hoursController.text,
-        about: _aboutController.text,
+      final newInfo = _initialInfo.copyWith(
+        name: _nameController.text.trim(),
+        address: _addressController.text.trim(),
+        workingHours: _hoursController.text.trim(),
+        about: _aboutController.text.trim(),
       );
-      widget.onSave(newInfo);
+      MockRepository.instance.updateShelterInfo(newInfo);
+      context.pop();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Редактирование информации'),
+      ),
       body: Form(
         key: _formKey,
         child: ListView(
@@ -57,14 +72,10 @@ class _ShelterInfoFormScreenState extends State<ShelterInfoFormScreen> {
             const SizedBox(height: 16),
             TextFormField(controller: _aboutController, decoration: const InputDecoration(labelText: AppConstants.aboutUsLabel), maxLines: 5),
             const SizedBox(height: 24),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(onPressed: widget.onCancel, child: const Text(AppConstants.cancelButtonText)),
-                const SizedBox(width: 8),
-                ElevatedButton(onPressed: _submit, child: const Text(AppConstants.saveButtonText)),
-              ],
-            )
+            ElevatedButton(
+              onPressed: _submit,
+              child: const Text(AppConstants.saveButtonText),
+            ),
           ],
         ),
       ),

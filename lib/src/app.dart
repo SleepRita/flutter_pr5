@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'shared/routing/app_router.dart';
 import 'shared/constants/app_constants.dart';
-import 'features/main_screen.dart';
 
 class AnimalShelterApp extends StatelessWidget {
   const AnimalShelterApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: AppConstants.appTitle,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: AppConstants.primaryColor),
@@ -15,11 +15,10 @@ class AnimalShelterApp extends StatelessWidget {
         appBarTheme: const AppBarTheme(
           backgroundColor: AppConstants.primaryColor,
           foregroundColor: Colors.white,
-          elevation: 2, // Небольшая тень
-          centerTitle: true, // Центрирование заголовка
+          centerTitle: true,
         ),
       ),
-      home: const MainScreen(),
+      routerConfig: goRouter,
     );
   }
 }
