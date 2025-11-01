@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pr5/src/features/animal_shelter/screens/animal_detail_screen.dart';
+import 'package:flutter_pr5/src/features/animal_shelter/screens/animal_form_screen.dart';
 import 'package:flutter_pr5/src/shared/constants/app_constants.dart';
 import 'package:flutter_pr5/src/features/animal_shelter/models/animal.dart';
 import 'package:flutter_pr5/src/features/animal_shelter/widgets/animal_tile.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter_pr5/src/data/mock_repository.dart';
 
 class AnimalListScreen extends StatefulWidget {
@@ -175,8 +176,9 @@ class _AnimalListScreenState extends State<AnimalListScreen> {
                     Expanded(
                       child: ElevatedButton.icon(
                         onPressed: () async {
-                          await context.push('/animals/add');
-                          // После возврата обновление списка
+                          await Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => const AnimalFormScreen()),
+                          );
                           _refreshAnimalList();
                         },
                         icon: const Icon(Icons.add),
@@ -214,11 +216,15 @@ class _AnimalListScreenState extends State<AnimalListScreen> {
                 return AnimalTile(
                   animal: animal,
                   onTap: () async {
-                    await context.push('/animals/details/${animal.id}');
+                    await Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => AnimalDetailScreen(animal: animal)),
+                    );
                     _refreshAnimalList();
                   },
                   onEdit: () async {
-                    await context.push('/animals/edit/${animal.id}');
+                    await Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => AnimalFormScreen(animal: animal)),
+                    );
                     _refreshAnimalList();
                   },
                   onDelete: () {

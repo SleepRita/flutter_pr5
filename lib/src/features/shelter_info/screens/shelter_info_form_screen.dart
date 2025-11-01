@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pr5/src/shared/constants/app_constants.dart';
 import 'package:flutter_pr5/src/features/shelter_info/models/shelter_info.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter_pr5/src/data/mock_repository.dart';
 
 class ShelterInfoFormScreen extends StatefulWidget {
@@ -49,7 +48,7 @@ class _ShelterInfoFormScreenState extends State<ShelterInfoFormScreen> {
         about: _aboutController.text.trim(),
       );
       MockRepository.instance.updateShelterInfo(newInfo);
-      context.pop();
+      Navigator.of(context).pop();
     }
   }
 

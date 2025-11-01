@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'shared/routing/app_router.dart';
+import 'package:flutter_pr5/src/features/auth/screens/auth_screen.dart';
 import 'shared/constants/app_constants.dart';
 
 class AnimalShelterApp extends StatelessWidget {
@@ -7,7 +7,7 @@ class AnimalShelterApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    return MaterialApp(
       title: AppConstants.appTitle,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: AppConstants.primaryColor),
@@ -18,7 +18,7 @@ class AnimalShelterApp extends StatelessWidget {
           centerTitle: true,
         ),
       ),
-      routerConfig: goRouter,
+      home: const AuthScreen(),
     );
   }
 }

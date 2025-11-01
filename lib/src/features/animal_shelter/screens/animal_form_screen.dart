@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pr5/src/shared/constants/app_constants.dart';
 import 'package:flutter_pr5/src/features/animal_shelter/models/animal.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter_pr5/src/data/mock_repository.dart';
 
 class AnimalFormScreen extends StatefulWidget {
@@ -68,8 +67,7 @@ class _AnimalFormScreenState extends State<AnimalFormScreen> {
         );
         MockRepository.instance.addAnimal(newAnimal);
       }
-      // Возвращение на предыдущий экран с помощью GoRouter
-      context.pop();
+      Navigator.of(context).pop();
     }
   }
 

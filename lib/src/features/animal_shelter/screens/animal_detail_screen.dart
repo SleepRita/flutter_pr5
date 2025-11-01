@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pr5/src/features/animal_shelter/screens/animal_form_screen.dart';
 import 'package:flutter_pr5/src/shared/constants/app_constants.dart';
 import 'package:flutter_pr5/src/features/animal_shelter/models/animal.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter_pr5/src/data/mock_repository.dart';
 
 class AnimalDetailScreen extends StatefulWidget {
@@ -34,7 +34,7 @@ class _AnimalDetailScreenState extends State<AnimalDetailScreen> {
 
   void _delete() {
     MockRepository.instance.deleteAnimal(_currentAnimal.id);
-    context.pop();
+    Navigator.of(context).pop();
   }
 
   @override
@@ -47,8 +47,9 @@ class _AnimalDetailScreenState extends State<AnimalDetailScreen> {
             icon: const Icon(Icons.edit),
             tooltip: 'Редактировать',
             onPressed: () async {
-              await context.push('/animals/edit/${_currentAnimal.id}');
-              // Обновление данных после возвращения
+              await Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => AnimalFormScreen(animal: _currentAnimal)),
+              );
               setState(() {
                 _currentAnimal = MockRepository.instance.getAnimalById(_currentAnimal.id)!;
               });
