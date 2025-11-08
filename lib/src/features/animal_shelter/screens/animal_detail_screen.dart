@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pr5/src/shared/constants/app_constants.dart';
 import 'package:flutter_pr5/src/features/animal_shelter/models/animal.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_pr5/src/data/mock_repository.dart';
+import 'package:flutter_pr5/src/shared/providers/repository_provider.dart';
 import 'package:go_router/go_router.dart';
 
 class AnimalDetailScreen extends StatefulWidget {
@@ -29,11 +29,11 @@ class _AnimalDetailScreenState extends State<AnimalDetailScreen> {
     setState(() {
       _currentAnimal = _currentAnimal.copyWith(status: newStatus);
     });
-    MockRepository.instance.updateAnimal(_currentAnimal);
+    RepositoryProvider.of(context).updateAnimal(_currentAnimal);
   }
 
   void _delete() {
-    MockRepository.instance.deleteAnimal(_currentAnimal.id);
+    RepositoryProvider.of(context).deleteAnimal(_currentAnimal.id);
     context.pop();
   }
 
@@ -49,7 +49,7 @@ class _AnimalDetailScreenState extends State<AnimalDetailScreen> {
             onPressed: () async {
               await context.push('/animals/edit/${_currentAnimal.id}');
               setState(() {
-                _currentAnimal = MockRepository.instance.getAnimalById(_currentAnimal.id)!;
+                _currentAnimal = RepositoryProvider.of(context).getAnimalById(_currentAnimal.id)!;
               });
             },
           ),

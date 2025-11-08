@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pr5/src/shared/constants/app_constants.dart';
 import 'package:flutter_pr5/src/features/animal_shelter/models/animal.dart';
-import 'package:flutter_pr5/src/data/mock_repository.dart';
+import 'package:flutter_pr5/src/shared/providers/repository_provider.dart';
 import 'package:go_router/go_router.dart';
 
 class AnimalFormScreen extends StatefulWidget {
@@ -55,7 +55,7 @@ class _AnimalFormScreenState extends State<AnimalFormScreen> {
           imageUrl: _imageUrlController.text.trim(),
           type: _selectedType,
         );
-        MockRepository.instance.updateAnimal(updatedAnimal);
+        RepositoryProvider.of(context)..updateAnimal(updatedAnimal);
       } else { // Режим создания
         final newAnimal = Animal(
           id: '',
@@ -66,7 +66,7 @@ class _AnimalFormScreenState extends State<AnimalFormScreen> {
           imageUrl: _imageUrlController.text.trim(),
           type: _selectedType,
         );
-        MockRepository.instance.addAnimal(newAnimal);
+        RepositoryProvider.of(context).addAnimal(newAnimal);
       }
       context.pop();
     }

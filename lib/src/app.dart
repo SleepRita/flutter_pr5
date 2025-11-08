@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pr5/src/data/mock_repository.dart';
+import 'package:flutter_pr5/src/shared/providers/repository_provider.dart';
 import 'package:flutter_pr5/src/shared/routing/app_router.dart';
 import 'shared/constants/app_constants.dart';
 
@@ -7,18 +9,21 @@ class AnimalShelterApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: AppConstants.appTitle,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: AppConstants.primaryColor),
-        useMaterial3: true,
-        appBarTheme: const AppBarTheme(
-          backgroundColor: AppConstants.primaryColor,
-          foregroundColor: Colors.white,
-          centerTitle: true,
+    return RepositoryProvider(
+      repository: MockRepository.instance,
+      child: MaterialApp.router(
+        title: AppConstants.appTitle,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: AppConstants.primaryColor),
+          useMaterial3: true,
+          appBarTheme: const AppBarTheme(
+            backgroundColor: AppConstants.primaryColor,
+            foregroundColor: Colors.white,
+            centerTitle: true,
+          ),
         ),
+        routerConfig: goRouter,
       ),
-      routerConfig: goRouter,
     );
   }
 }

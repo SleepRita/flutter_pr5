@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pr5/src/features/auth/screens/auth_screen.dart';
 import 'package:flutter_pr5/src/features/main/screens/main_screen.dart';
+import 'package:flutter_pr5/src/shared/providers/repository_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_pr5/src/data/mock_repository.dart';
 import 'package:flutter_pr5/src/features/animal_shelter/screens/animal_detail_screen.dart';
@@ -56,7 +57,7 @@ final goRouter = GoRouter(
       path: '/animals/details/:id',
       builder: (context, state) {
         final animalId = state.pathParameters['id']!;
-        final animal = MockRepository.instance.getAnimalById(animalId);
+        final animal = RepositoryProvider.of(context).getAnimalById(animalId);
         return AnimalDetailScreen(animal: animal!);
       },
     ),
@@ -64,7 +65,7 @@ final goRouter = GoRouter(
       path: '/animals/edit/:id',
       builder: (context, state) {
         final animalId = state.pathParameters['id']!;
-        final animal = MockRepository.instance.getAnimalById(animalId);
+        final animal = RepositoryProvider.of(context).getAnimalById(animalId);
         return AnimalFormScreen(animal: animal);
       },
     ),
