@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pr5/src/data/mock_repository.dart';
+import 'package:flutter_pr5/src/service_locator.dart';
 import 'package:flutter_pr5/src/shared/constants/app_constants.dart';
 import 'package:flutter_pr5/src/features/shelter_info/models/shelter_info.dart';
-import 'package:flutter_pr5/src/data/mock_repository.dart';
 import 'package:go_router/go_router.dart';
 
 class ShelterInfoFormScreen extends StatefulWidget {
@@ -23,7 +24,7 @@ class _ShelterInfoFormScreenState extends State<ShelterInfoFormScreen> {
   @override
   void initState() {
     super.initState();
-    _initialInfo = MockRepository.instance.getShelterInfo();
+    _initialInfo = getIt<MockRepository>().getShelterInfo();
 
     _nameController = TextEditingController(text: _initialInfo.name);
     _addressController = TextEditingController(text: _initialInfo.address);
@@ -48,7 +49,7 @@ class _ShelterInfoFormScreenState extends State<ShelterInfoFormScreen> {
         workingHours: _hoursController.text.trim(),
         about: _aboutController.text.trim(),
       );
-      MockRepository.instance.updateShelterInfo(newInfo);
+      getIt<MockRepository>().updateShelterInfo(newInfo);
       context.pop();
     }
   }

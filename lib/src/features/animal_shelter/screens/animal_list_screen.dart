@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pr5/src/data/mock_repository.dart';
+import 'package:flutter_pr5/src/service_locator.dart';
 import 'package:flutter_pr5/src/shared/constants/app_constants.dart';
 import 'package:flutter_pr5/src/features/animal_shelter/models/animal.dart';
 import 'package:flutter_pr5/src/features/animal_shelter/widgets/animal_tile.dart';
-import 'package:flutter_pr5/src/data/mock_repository.dart';
 import 'package:go_router/go_router.dart';
 
 class AnimalListScreen extends StatefulWidget {
@@ -29,7 +30,7 @@ class _AnimalListScreenState extends State<AnimalListScreen> {
   void initState() {
     super.initState();
     // При инициализации получаются данные из репозитория
-    _animals = MockRepository.instance.getAnimals();
+    _animals = getIt<MockRepository>().getAnimals();
 
     // Определение диапазона возраста на основе переданных данных
     if (_animals.isNotEmpty) {
@@ -64,7 +65,7 @@ class _AnimalListScreenState extends State<AnimalListScreen> {
   // Метод вызывается для обновления списка после возврата с другого экрана
   void _refreshAnimalList() {
     setState(() {
-      _animals = MockRepository.instance.getAnimals();
+      _animals = getIt<MockRepository>().getAnimals();
     });
   }
 
@@ -221,7 +222,7 @@ class _AnimalListScreenState extends State<AnimalListScreen> {
                     _refreshAnimalList();
                   },
                   onDelete: () {
-                    MockRepository.instance.deleteAnimal(animal.id);
+                    getIt<MockRepository>().deleteAnimal(animal.id);
                     _refreshAnimalList();
                   },
                 );

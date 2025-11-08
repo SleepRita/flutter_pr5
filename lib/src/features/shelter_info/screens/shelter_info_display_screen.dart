@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pr5/src/data/mock_repository.dart';
+import 'package:flutter_pr5/src/service_locator.dart';
 import 'package:flutter_pr5/src/shared/constants/app_constants.dart';
 import 'package:flutter_pr5/src/features/shelter_info/models/shelter_info.dart';
-import 'package:flutter_pr5/src/data/mock_repository.dart';
 import 'package:go_router/go_router.dart';
 
 class ShelterInfoDisplayScreen extends StatefulWidget {
@@ -18,13 +19,13 @@ class _ShelterInfoDisplayScreenState extends State<ShelterInfoDisplayScreen> {
   @override
   void initState() {
     super.initState();
-    _info = MockRepository.instance.getShelterInfo();
+    _info = getIt<MockRepository>().getShelterInfo();
   }
 
   // Метод для обновления данных после возврата с экрана редактирования
   void _refreshInfo() {
     setState(() {
-      _info = MockRepository.instance.getShelterInfo();
+      _info = getIt<MockRepository>().getShelterInfo();
     });
   }
 
