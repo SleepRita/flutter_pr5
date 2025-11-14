@@ -21,7 +21,7 @@ class MockRepository {
         description: 'Милый декоративный кролик.', imageUrl: 'https://static.tildacdn.com/tild3230-3066-4431-b037-316134383966/tMFc8f5ce-B5hLIAv7Mc.jpg'),
   ];
 
-  List<Animal> getAnimals() => _animals;
+  List<Animal> getAnimals() => List.from(_animals);
 
   Animal? getAnimalById(String id) {
     try {
